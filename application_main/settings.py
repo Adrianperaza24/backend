@@ -28,7 +28,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default = 'unsafe-dev-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DJANGO_DEBUG', default = 'False', cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='busoptix.com', cast=Csv())
 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -144,13 +144,13 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 CORS_ALLOWED_ORIGINS = [
-#   'http://localhost:5137',
-  'https://busoptix.com'
+  'https://busoptix.com',
+  'https://www.busoptix.com'
 ]
   
 CSRF_TRUSTED_ORIGINS = config(  
     'CSRF_TRUSTED_ORIGINS',  
-    default='http://localhost:5173,https://djx2mh3hosaxo.cloudfront.net',  
+    default='https://busoptix.com, https://www.busoptix.com',  
     cast=Csv()  
 )  
   
