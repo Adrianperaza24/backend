@@ -28,7 +28,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY', default = 'unsafe-dev-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DJANGO_DEBUG', default = 'False', cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='busoptix.com', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='backend-api.busoptix.com', cast=Csv())
 
 
 AUTH_USER_MODEL = 'accounts.User'
