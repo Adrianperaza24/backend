@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from decouple import config, Csv
 from datetime import timedelta
 import os
 
@@ -23,12 +22,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('DJANGO_SECRET_KEY', default = 'unsafe-dev-key')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default = 'unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DJANGO_DEBUG', default = 'False', cast=bool)
+DEBUG = os.environ.get('DJANGO_DEBUG', default = 'False')
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='backend-api.busoptix.com', cast=Csv())
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'backend-api.busoptix.com',
+    'www.backend-api.busoptix.com'
+]
 
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -91,12 +94,12 @@ WSGI_APPLICATION = 'application_main.wsgi.application'
 
 DATABASES = {  
     'default': {  
-        'ENGINE': 'django.db.backends.postgresql',  
-        'NAME': config('RDS_DB_NAME', default=config('POSTGRES_DB', default='postgres')),  
-        'USER': config('RDS_USERNAME', default=config('POSTGRES_USER', default='postgres')),  
-        'PASSWORD': config('RDS_PASSWORD', default=config('POSTGRES_PASSWORD', default='')),  
-        'HOST': config('RDS_HOSTNAME', default=config('POSTGRES_HOST', default='localhost')),  
-        'PORT': config('RDS_PORT', default=config('POSTGRES_PORT', default='5151')),  
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',  
+        'NAME': os.environ.get('POSTGRES_DB', default='postgres'),  
+        'USER': os.environ.get('POSTGRES_USER', default='postgres'),  
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default=''),  
+        'HOST': os.environ.get('POSTGRES_HOST', default='localhost'),  
+        'PORT': os.environ.get('POSTGRES_PORT', default='5432'),  
         'CONN_MAX_AGE': 60,  
     }  
 }
@@ -144,18 +147,18 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 CORS_ALLOWED_ORIGINS = [
-  'https://busoptix.com',
-  'https://www.busoptix.com'
+    'https://localhost:5173',
+    'https://busoptix.com',
+    'https://www.busoptix.com'
 ]
   
-CSRF_TRUSTED_ORIGINS = config(  
-    'CSRF_TRUSTED_ORIGINS',  
-    default='https://busoptix.com, https://www.busoptix.com',  
-    cast=Csv()  
-)  
+CSRF_TRUSTED_ORIGINS = [
+    'https://localhost:5173',
+    'https://busoptix.com',
+    'https://www.busoptix.com'
+]
   
 CORS_ALLOW_CREDENTIALS = True
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
